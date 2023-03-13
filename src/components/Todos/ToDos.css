@@ -1,0 +1,7 @@
+section.toDos {
+  min-height: 85vh;
+}
+
+section.toDos td.controls {
+  width: 25%;
+}
