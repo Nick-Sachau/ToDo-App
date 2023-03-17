@@ -4,7 +4,7 @@ import { FaTrashAlt, FaEdit } from 'react-icons/fa'
 import axios from 'axios'
 import { CatEdit } from './CatEdit'
 
-export const SingleCategory = ({ category, getCategories }) => {
+export const SingleCategory = ({ setShowCreate, category, getCategories }) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const { currentUser } = useAuth()
@@ -21,7 +21,7 @@ export const SingleCategory = ({ category, getCategories }) => {
       <td>{category.catDesc}</td>
       {currentUser.email === process.env.REACT_APP_ADMIN_EMAIL &&
         <td>
-          <button className="m-1 rounded" id='editLink' onClick={() => showEdit(true)}>
+          <button className="m-1 rounded" id='editLink' onClick={() => setShowEdit(true)}>
             <FaEdit />
           </button>
           <button className="m-1 rounded" id='deleteLink' onClick={() => deleteCat(category.categoryId)}>
@@ -29,6 +29,7 @@ export const SingleCategory = ({ category, getCategories }) => {
           </button>
           {showEdit &&
             <CatEdit 
+              setShowCreate={setShowCreate}
               setShowEdit={setShowEdit}
               showEdit={showEdit}
               getCategories={getCategories}

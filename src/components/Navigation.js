@@ -7,7 +7,7 @@ export const Navigation = () => {
   const { currentUser } = useAuth() 
   return (
     <Navbar variant='dark' bg='dark' expand='lg' className='p-3'>
-      <Navbar.Brand href='/'>ResourcePlus</Navbar.Brand>
+      <Navbar.Brand href='/'>ToDo App</Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse className='justify-content-end'>
         {/* Links for each page will go here. In this project we are using react-router-dom, which carries a link
@@ -16,6 +16,7 @@ export const Navigation = () => {
           2) import { Link } from 'react-router-dom' (see above)*/}
         <Nav>
           <Link to='/todos' className='nav-link'>ToDos</Link>
+          
           {currentUser && 
           <>
             <Link to='/categories' className='nav-link'>Categories</Link>

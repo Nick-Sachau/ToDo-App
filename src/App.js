@@ -7,8 +7,10 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Footer } from "./components/Footer";
 import { Navigation } from "./components/Navigation";
+import { Home } from "./components/Home/Home";
 
 function App() {
+
   return (
     <AuthProvider>
       <Router>
@@ -16,8 +18,8 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login />}/>
           <Route path='/categories' element={<ProtectedRoute><Categories /></ProtectedRoute>}/>
-          <Route path='/' element={<ProtectedRoute><Todos /></ProtectedRoute>}/>
-          <Route path='/todos' element={<Todos />}/>
+          <Route path='/' element={<Home />}/>
+          <Route path='/todos' element={<ProtectedRoute><Todos /></ProtectedRoute>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
         <Footer />

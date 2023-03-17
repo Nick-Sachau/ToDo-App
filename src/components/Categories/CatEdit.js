@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap'
 import { CatForm } from './CatForm'
 
 
-export const CatEdit = ({ showEdit, setShowEdit, category, getCategories }) => {
+export const CatEdit = ({ setShowCreate, showEdit, setShowEdit, category, getCategories }) => {
   return (
     <Modal
     show={showEdit}

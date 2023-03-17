@@ -8,13 +8,11 @@ export const ToDoForm = ({setShowCreate, getToDos, toDo, setShowEdit}) => {
 
   const getCategories = () => {
     axios.get(`http://todoapi.nickthedev.net/api/categories`).then(res => {
-      console.log(res);
       setCategories(res.data)
     })
   }
 
   const handleSubmit = (values) => {
-    console.log(values);
     if(!toDo) {
       const toDoToCreate = values;
 
@@ -26,8 +24,9 @@ export const ToDoForm = ({setShowCreate, getToDos, toDo, setShowEdit}) => {
     else {
       const taskToEdit = {
         toDoId: toDo.toDoId,
-        Name: values.Name,
-        Done: values.Done,
+        Name: values.name,
+        Done: values.done,
+        Description: values.description,
         categoryId: values.categoryId
       }
 
@@ -46,9 +45,9 @@ export const ToDoForm = ({setShowCreate, getToDos, toDo, setShowEdit}) => {
     <Formik
     initialValues={{
       name: toDo ? toDo.name : '',
-      // TODO: Add later
-      // description: toDo ? toDo.description : '',
-      categoryId: toDo ? toDo.category.categoryId : ''
+      description: toDo ? toDo.description : '',
+      categoryId: toDo ? toDo.category.categoryId : '',
+      done: toDo ? toDo.done : false
     }}
     validationSchema={toDoSchema}
     onSubmit={values => handleSubmit(values)}>
@@ -62,14 +61,13 @@ export const ToDoForm = ({setShowCreate, getToDos, toDo, setShowEdit}) => {
             }
           </div>
 
-          {/* Add Later */}
-          {/* <div className="form-group m-3">
+          <div className="form-group m-3">
             <Field name='description' as='textarea' className='form-control' placeholder='Description' style={{resize: 'none', height: '5em'}} />
             {errors.description && touched.description ?
               <div className="text-danger">{errors.description}</div>:
               null
             }
-          </div> */}
+          </div>
 
           <div className="form-group m-3">
             <Field as='select' name='categoryId' className='form-control'>
@@ -86,6 +84,19 @@ export const ToDoForm = ({setShowCreate, getToDos, toDo, setShowEdit}) => {
               null
             }
           </div>
+
+          {toDo &&
+            <div className='form-group m-3'>
+              <label className="from-check-label" htmlFor='done'>Completed:</label>
+              <Field type="checkbox" name='done' id="done" className="form-check-input mx-5">
+                {errors.done && touched.done ?
+                  <div className="text-danger">{errors.done}</div> :
+                  null
+                }
+              </Field>
+            </div>
+          }
+
           <div className="form-group m-3">
             <button type='submit' className="btn btn-success m-3">Submit Resource to API</button>
           </div>

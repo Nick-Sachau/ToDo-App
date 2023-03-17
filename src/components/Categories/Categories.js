@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Container } from 'react-bootstrap'
 import { useAuth } from '../../contexts/AuthContext'
 import { SingleCategory } from './SingleCategory'
+import { CatCreate } from './CatCreate'
 
 export const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -32,7 +33,7 @@ export const Categories = () => {
           {showCreate ?
             <>
               <button className="btn btn-warning" onClick={() => setShowCreate(false)}>Cancel</button>
-              {/* CatCreate */}
+              <CatCreate setShowCreate={setShowCreate} getCategories={getCategories} />
             </> :
             <button className="btn btn-info" onClick={() => setShowCreate(true)}>Create Category</button>
           }
@@ -52,7 +53,7 @@ export const Categories = () => {
           <tbody>
             {categories.map(x =>
               // Single Category here
-              <SingleCategory key={x.categoryId} category={x} getCategories={getCategories} />
+              <SingleCategory key={x.categoryId} showCreate={showCreate} setShowCreate={setShowCreate} category={x} getCategories={getCategories} />
             )}
           </tbody>
         </table>

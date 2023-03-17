@@ -5,3 +5,7 @@ section.toDos {
 section.toDos td.controls {
   width: 25%;
 }
+
+.text-done-dark {
+  color: red;
+}

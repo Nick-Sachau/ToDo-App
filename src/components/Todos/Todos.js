@@ -9,10 +9,10 @@ import { ToDoCreate } from './ToDoCreate.js'
 export const Todos = () => {
   const [toDos, setToDos] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
+  const [doneTasks, setDoneTasks] = useState(false);
 
   const getToDos = () => {
     axios.get(`http://todoapi.nickthedev.net/api/todos`).then(res => {
-      console.log(res);
       setToDos(res.data)
     })
   }
@@ -29,16 +29,19 @@ export const Todos = () => {
         <h1 className="text-center">ToDos Dashboard</h1>
       </article>
 
-      {currentUser.email === process.env.REACT_APP_ADMIN_EMAIL &&
+      {currentUser === null || currentUser.email !== process.env.REACT_APP_ADMIN_EMAIL ?
+        null
+        :
         <div className="bg-dark p-2 mb-3 text-center">
-        <button className="btn btn-info" onClick={() => setShowCreate(!showCreate)}>{!showCreate ? 'Create New Task' : 'Close Form'}</button>
-        <div className="createContainer">
-          {showCreate &&
-            // Render resourceCreate
-            <ToDoCreate setShowCreate={setShowCreate} getToDos={getToDos} toDo={toDos}/>
-          }
+          <button className="btn btn-info mx-3" onClick={() => setShowCreate(!showCreate)}>{!showCreate ? 'Create New Task' : 'Close Form'}</button>
+          <button className='btn btn-warning mx-3' onClick={() => setDoneTasks(!doneTasks)}>Toggle Done Tasks</button>
+          <div className="createContainer">
+            {showCreate &&
+              <ToDoCreate setShowCreate={setShowCreate} getToDos={getToDos} toDo={toDos}/>
+            }
+          </div>
         </div>
-      </div>
+
       }
 
       <Container className='p-2'>
@@ -47,17 +50,26 @@ export const Todos = () => {
             <tr>
               <th>Name</th>
               <th>Category</th>
-              <th>Controls</th>
+              <th>Description</th>
+              {currentUser.email === process.env.REACT_APP_ADMIN_EMAIL &&
+                <th>Controls</th>
+              }
             </tr>
           </thead>
           <tbody>
-            {/* READ UI */}
             {toDos.map(x => 
-              <SingleToDo key={x.category.categoryId} toDo={x} getToDos={getToDos} />
+              !doneTasks ?
+                !x.done && <SingleToDo currentUser={currentUser} key={x.toDoId} toDo={x} getToDos={getToDos} />
+              :
+              <SingleToDo currentUser={currentUser} key={x.toDoId} toDo={x} getToDos={getToDos} />
             )}
-            {/* END READ UI */}
           </tbody>
         </table>
+        <div className="container text-center mt-5">
+          {currentUser.email !== process.env.REACT_APP_ADMIN_EMAIL &&
+            <h2>Log in to edit tasks</h2>
+          }
+        </div>
       </Container>
     </section>
   )
